@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VA Signer - Vikram Anantha</title>
+    <meta name="description" content="VA Signer - Generate VA sticker images with custom dates and products. A tool by Vikram Anantha.">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="../images/icon.png">
+</head>
+<body>
+    <div class="container">
+        <div id="header-placeholder"></div>
+        <main>
+            <div class="title-card">
+                <h1>VA Signer</h1>
+                <p>Generate VA sticker images with custom dates and products</p>
+            </div>
+
+            <div class="signer-container">
+                <div class="controls">
+                    <h2>1. Enter Details</h2>
+                    <input type="text" id="month-input" placeholder="Month (e.g. June)">
+                    <input type="text" id="day-input" placeholder="Day (e.g. 15)">
+                    <input type="text" id="year-input" placeholder="Year (e.g. 2026)" value="2026">
+                    <input type="text" id="product-input" placeholder="Product Name (optional)">
+
+                    <h2>2. Options</h2>
+                    <div class="signer-checkboxes">
+                        <label><input type="checkbox" id="border-check" checked> Show Border</label>
+                        <label><input type="checkbox" id="white-bg-check" checked> White Background</label>
+                        <label><input type="checkbox" id="long-form-check" checked> Long Form (Vikram Anantha)</label>
+                    </div>
+
+                    <div class="signer-color-row">
+                        <span>Border color:</span>
+                        <canvas id="color-preview" width="60" height="20"></canvas>
+                    </div>
+
+                    <div class="slider-group">
+                        <h2>3. Adjust Monogram, Date & Layout</h2>
+                        <div class="slider-row">
+                            <label for="w-ratio-slider">Width ratio</label>
+                            <input type="range" id="w-ratio-slider" min="0.30" max="0.80" step="0.01" value="0.70">
+                            <span class="slider-value" id="w-ratio-value">0.70</span>
+                        </div>
+                        <div class="slider-row">
+                            <label for="bar-ratio-slider">Bar thickness</label>
+                            <input type="range" id="bar-ratio-slider" min="0.05" max="0.25" step="0.005" value="0.130">
+                            <span class="slider-value" id="bar-ratio-value">0.130</span>
+                        </div>
+                        <div class="slider-row">
+                            <label for="gap-ratio-slider">Diagonal gap</label>
+                            <input type="range" id="gap-ratio-slider" min="0.000" max="0.150" step="0.002" value="0.088">
+                            <span class="slider-value" id="gap-ratio-value">0.088</span>
+                        </div>
+                        <div class="slider-row">
+                            <label for="crossbar-slider">Crossbar position</label>
+                            <input type="range" id="crossbar-slider" min="0.00" max="1.00" step="0.01" value="0.60">
+                            <span class="slider-value" id="crossbar-value">0.60</span>
+                        </div>
+                        <div class="slider-row">
+                            <label for="v-slide-slider">V-A vertical slide</label>
+                            <input type="range" id="v-slide-slider" min="0.00" max="0.50" step="0.01" value="0.19">
+                            <span class="slider-value" id="v-slide-value">0.19</span>
+                        </div>
+                        <div class="slider-row">
+                            <label for="corner-tl-slider">Corner radius TL (V top-left)</label>
+                            <input type="checkbox" id="corner-tl-enable">
+                            <input type="range" id="corner-tl-slider" min="0" max="30" step="1" value="6">
+                            <span class="slider-value" id="corner-tl-value">6</span>
+                        </div>
+                        <div class="slider-row">
+                            <label for="corner-tr-slider">Corner radius TR (V top-right)</label>
+                            <input type="checkbox" id="corner-tr-enable" checked>
+                            <input type="range" id="corner-tr-slider" min="0" max="30" step="1" value="6">
+                            <span class="slider-value" id="corner-tr-value">6</span>
+                        </div>
+                        <div class="slider-row">
+                            <label for="corner-v-inner-l-slider">Corner radius V inner (top-left notch)</label>
+                            <input type="checkbox" id="corner-v-inner-l-enable" checked>
+                            <input type="range" id="corner-v-inner-l-slider" min="0" max="30" step="1" value="6">
+                            <span class="slider-value" id="corner-v-inner-l-value">6</span>
+                        </div>
+                        <div class="slider-row">
+                            <label for="corner-v-inner-r-slider">Corner radius V inner (top-right notch)</label>
+                            <input type="checkbox" id="corner-v-inner-r-enable" checked>
+                            <input type="range" id="corner-v-inner-r-slider" min="0" max="30" step="1" value="6">
+                            <span class="slider-value" id="corner-v-inner-r-value">6</span>
+                        </div>
+                        <div class="slider-row">
+                            <label for="corner-bl-slider">Corner radius BL (A bottom-left)</label>
+                            <input type="checkbox" id="corner-bl-enable" checked>
+                            <input type="range" id="corner-bl-slider" min="0" max="30" step="1" value="6">
+                            <span class="slider-value" id="corner-bl-value">6</span>
+                        </div>
+                        <div class="slider-row">
+                            <label for="corner-br-slider">Corner radius BR (A bottom-right)</label>
+                            <input type="checkbox" id="corner-br-enable">
+                            <input type="range" id="corner-br-slider" min="0" max="30" step="1" value="6">
+                            <span class="slider-value" id="corner-br-value">6</span>
+                        </div>
+                        <div class="slider-row">
+                            <label for="corner-a-inner-l-slider">Corner radius A inner (bottom-left)</label>
+                            <input type="checkbox" id="corner-a-inner-l-enable" checked>
+                            <input type="range" id="corner-a-inner-l-slider" min="0" max="30" step="1" value="6">
+                            <span class="slider-value" id="corner-a-inner-l-value">6</span>
+                        </div>
+                        <div class="slider-row">
+                            <label for="corner-a-inner-r-slider">Corner radius A inner (bottom-right)</label>
+                            <input type="checkbox" id="corner-a-inner-r-enable" checked>
+                            <input type="range" id="corner-a-inner-r-slider" min="0" max="30" step="1" value="6">
+                            <span class="slider-value" id="corner-a-inner-r-value">6</span>
+                        </div>
+                    </div>
+
+                    <div class="slider-group">
+                        <h3>Adjust Date Style</h3>
+                        <div class="slider-row">
+                            <label for="o-size-slider">"o" size</label>
+                            <input type="range" id="o-size-slider" min="0.20" max="1.00" step="0.01" value="0.80">
+                            <span class="slider-value" id="o-size-value">0.80</span>
+                        </div>
+                        <div class="slider-row">
+                            <label for="bar-gap-slider">Bar gap</label>
+                            <input type="range" id="bar-gap-slider" min="0.000" max="0.300" step="0.001" value="0.127">
+                            <span class="slider-value" id="bar-gap-value">0.127</span>
+                        </div>
+                        <div class="slider-row">
+                            <label for="bar-weight-slider">Bar weight</label>
+                            <input type="range" id="bar-weight-slider" min="0.010" max="0.200" step="0.005" value="0.130">
+                            <span class="slider-value" id="bar-weight-value">0.130</span>
+                        </div>
+                        <div class="slider-row">
+                            <label for="o-offset-slider">"o" vertical offset</label>
+                            <input type="range" id="o-offset-slider" min="-1.00" max="0.30" step="0.01" value="-0.19">
+                            <span class="slider-value" id="o-offset-value">-0.19</span>
+                        </div>
+                        <div class="slider-row">
+                            <label for="date-offset-slider">Date vertical offset</label>
+                            <input type="range" id="date-offset-slider" min="-1.00" max="1.00" step="0.01" value="0.00">
+                            <span class="slider-value" id="date-offset-value">0.00</span>
+                        </div>
+                        <div class="slider-row">
+                            <label for="date-letter-spacing-slider">Date letter spacing</label>
+                            <input type="range" id="date-letter-spacing-slider" min="0.00" max="0.30" step="0.005" value="0.135">
+                            <span class="slider-value" id="date-letter-spacing-value">0.135</span>
+                        </div>
+                        <div class="slider-row">
+                            <label for="date-spacing-slider">Date token gap (month / day / year)</label>
+                            <input type="range" id="date-spacing-slider" min="0.30" max="1.50" step="0.01" value="1.01">
+                            <span class="slider-value" id="date-spacing-value">1.01</span>
+                        </div>
+                    </div>
+
+                    <div class="slider-group">
+                        <h3>Layout</h3>
+                        <div class="slider-row">
+                            <label for="text-size-slider">Text size</label>
+                            <input type="range" id="text-size-slider" min="50" max="300" step="1" value="213">
+                            <span class="slider-value" id="text-size-value">213</span>
+                        </div>
+                        <div class="slider-row">
+                            <label for="border-thickness-slider">Border thickness</label>
+                            <input type="range" id="border-thickness-slider" min="4" max="80" step="1" value="35">
+                            <span class="slider-value" id="border-thickness-value">35</span>
+                        </div>
+                        <div class="slider-row">
+                            <label for="border-radius-slider">Border radius</label>
+                            <input type="range" id="border-radius-slider" min="0" max="120" step="1" value="52">
+                            <span class="slider-value" id="border-radius-value">52</span>
+                        </div>
+                        <div class="slider-row">
+                            <label for="name-letter-spacing-slider">"ikram / nantha" letter spacing</label>
+                            <input type="range" id="name-letter-spacing-slider" min="0.00" max="0.30" step="0.005" value="0.135">
+                            <span class="slider-value" id="name-letter-spacing-value">0.135</span>
+                        </div>
+                        <div class="slider-row">
+                            <label for="ikram-x-slider">"ikram" horizontal offset</label>
+                            <input type="range" id="ikram-x-slider" min="-1.00" max="1.00" step="0.01" value="-0.10">
+                            <span class="slider-value" id="ikram-x-value">-0.10</span>
+                        </div>
+                        <div class="slider-row">
+                            <label for="nantha-x-slider">"nantha" horizontal offset</label>
+                            <input type="range" id="nantha-x-slider" min="-1.00" max="1.00" step="0.01" value="0.15">
+                            <span class="slider-value" id="nantha-x-value">0.15</span>
+                        </div>
+                        <div class="slider-row">
+                            <label for="padding-top-slider">Top padding</label>
+                            <input type="range" id="padding-top-slider" min="0" max="200" step="1" value="46">
+                            <span class="slider-value" id="padding-top-value">46</span>
+                        </div>
+                        <div class="slider-row">
+                            <label for="padding-right-slider">Right padding</label>
+                            <input type="range" id="padding-right-slider" min="0" max="200" step="1" value="113">
+                            <span class="slider-value" id="padding-right-value">113</span>
+                        </div>
+                        <div class="slider-row">
+                            <label for="padding-bottom-slider">Bottom padding</label>
+                            <input type="range" id="padding-bottom-slider" min="0" max="200" step="1" value="46">
+                            <span class="slider-value" id="padding-bottom-value">46</span>
+                        </div>
+                        <div class="slider-row">
+                            <label for="padding-left-slider">Left padding</label>
+                            <input type="range" id="padding-left-slider" min="0" max="200" step="1" value="9">
+                            <span class="slider-value" id="padding-left-value">9</span>
+                        </div>
+                        <div class="slider-row">
+                            <label for="nantha-offset-slider">"nantha" vertical offset</label>
+                            <input type="range" id="nantha-offset-slider" min="-0.50" max="0.50" step="0.01" value="0.18">
+                            <span class="slider-value" id="nantha-offset-value">0.18</span>
+                        </div>
+                    </div>
+
+                    <button id="generate-btn">Generate Sticker</button>
+                    <a id="download-link" style="display: none;">Download Sticker</a>
+                </div>
+                <div class="signer-preview">
+                    <h2>Preview</h2>
+                    <canvas id="signer-canvas"></canvas>
+                </div>
+            </div>
+        </main>
+        <div id="footer-placeholder"></div>
+    </div>
+    <script src="../header.js"></script>
+    <script src="../footer.js"></script>
+    <script>
+        loadHeader();
+        loadFooter();
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
